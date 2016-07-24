@@ -3,14 +3,20 @@ import java.util.Scanner;
 /**
  * Created by alexs on 7/21/2016.
  */
-public class MainClass
+public class MainClass extends NumbersToWordsES
 {
 	private static final Scanner in = new Scanner(System.in);
 
 	public static void main(String[] args)
 	{
-		NumbersToWords n = new NumbersToWords();
-		System.out.println(n.convert(getDouble()));
+		try
+		{
+			System.out.println(convert(getLong()));
+		}
+		catch (NumberIsTooLargeException | NumberFormatException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	private static String getString()
@@ -24,17 +30,17 @@ public class MainClass
 		}
 	}
 
-	private static double getDouble()
+	private static long getLong()
 	{
 		String number = getString();
 		StringBuilder n = new StringBuilder(1);
 		for (int i = 0; i < number.length(); i++)
 		{
 			char c = number.charAt(i);
-			if (c > 47 && c < 58)
+			if (c > 47 && c < 58 || c == 45)
 				n.append(c);
 		}
 		number = n.toString();
-		return number.isEmpty() ? getDouble() : Double.parseDouble(number);
+		return number.isEmpty() ? getLong() : Long.parseLong(number);
 	}
 }

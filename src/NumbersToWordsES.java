@@ -79,8 +79,8 @@ public class NumbersToWordsES
 	{
 		if (number == 0)
 			return "CERO";
-		if (number > 999999999999999999L)
-			throw new NumberIsTooLargeException("Number is too large");
+		if (number > 999999999999999999L || number < -999999999999999999L)
+			throw new NumberIsTooLargeException("El número es muy grande");
 		return number < 0 ? "MENOS " + billions(number * -1) : billions(number);
 	}
 

@@ -21,9 +21,10 @@ public class MainClass extends NumbersToWordsES
 
 	private static String getString()
 	{
+		String line;
 		while (true)
 		{
-			String line = in.nextLine();
+			line = in.nextLine();
 			if (line.isEmpty())
 				continue;
 			return line;

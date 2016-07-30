@@ -10,68 +10,71 @@ public class NumbersToWordsES
 	private static final String[] dozens = {"TREINTA ", "CUARENTA ", "CINCUENTA ", "SESENTA ", "SETENTA ", "OCHENTA ", "NOVENTA "};
 	private static final String[] hundreds = {"CIENTO ", "DOSCIENTOS ", "TRESCIENTOS ", "CUATROCIENTOS ", "QUINIENTOS ", "SEISCIENTOS ", "SETECIENTOS ", "OCHOCIENTOS ", "NOVECIENTOS "};
 
-	private static String billions(long number) //from 1,000,000,000,000 to 999,999,999,999,999,999
+	private static String billion(long number) //from 1,000,000,000,000 to 999,999,999,999,999,999
 	{
 		if (number >= 1000000000000L)
 		{
 			if (number == 1000000000000L)
 				return "UN BILLÓN ";
-			else if (number < 2000000000000L)
-				return "UN BILLÓN " + millions(number % 1000000000000L);
-			else
-				return thousands(number / 1000000000000L) + "BILLONES " + millions(number % 1000000000000L);
+			if (number < 2000000000000L)
+				return "UN BILLÓN " + million(number % 1000000000000L);
+			return thousand(number / 1000000000000L) + "BILLONES " + million(number % 1000000000000L);
 		}
-		return millions(number);
+		return million(number);
 	}
 
-	private static String millions(long number) //from 1,000,000 to 999,999,999,999
+	private static String million(long number) //from 1,000,000 to 999,999,999,999
 	{
 		if (number >= 1000000)
 		{
 			if (number == 1000000)
 				return "UN MILLÓN ";
-			else if (number < 2000000)
-				return "UN MILLÓN " + thousands(number % 1000000);
-			else
-				return thousands(number / 1000000) + "MILLONES " + thousands(number % 1000000);
+			if (number < 2000000)
+				return "UN MILLÓN " + thousand(number % 1000000);
+			return thousand(number / 1000000) + "MILLONES " + thousand(number % 1000000);
 		}
-		return thousands(number);
+		return thousand(number);
 	}
 
-	private static String thousands(long number) //from 1000 to 999,999
+	private static String thousand(long number) //from 1000 to 999,999
 	{
 		if (number >= 1000)
+		{
 			if (number == 1000)
 				return "UN MIL ";
-			else if (number < 2000)
-				return "UN MIL " + hundreds(number % 1000, false);
-			else
-				return hundreds(number / 1000, true) + "MIL " + hundreds(number % 1000, false);
-		return hundreds(number, false);
+			if (number < 2000)
+				return "UN MIL " + hundred(number % 1000, false);
+			return hundred(number / 1000, true) + "MIL " + hundred(number % 1000, false);
+		}
+		return hundred(number, false);
 	}
 
-	private static String hundreds(long number, boolean bool) //from 100 to 999
+	private static String hundred(long number, boolean bool) //from 100 to 999
 	{
 		if (number >= 100)
 			for (int i = 9; i > 0; i--)
+			{
 				if (number == 100)
 					return "CIEN ";
-				else if (number >= 100 * i)
-					return hundreds[i - 1] + dozens(number % 100, bool);
-		return dozens(number, bool);
+				if (number >= 100 * i)
+					return hundreds[i - 1] + dozen(number % 100, bool);
+			}
+		return dozen(number, bool);
 	}
 
-	private static String dozens(long number, boolean bool) //from 1 to 99
+	private static String dozen(long number, boolean bool) //from 1 to 99
 	{
 		for (int i = 9; i > 2; i--)
+		{
 			if (number < 30)
 				return units[(int) number];
-			else if (number == 10 * i)
+			if (number == 10 * i)
 				return dozens[i - 3];
-			else if (bool && number >= 10 * i && (int) number % 10 == 1)
+			if (bool && number >= 10 * i && (int) number % 10 == 1)
 				return dozens[i - 3] + "Y UN ";
-			else if (number >= 10 * i)
+			if (number >= 10 * i)
 				return dozens[i - 3] + "Y " + units[(int) number % 10];
+		}
 		return "";
 	}
 
@@ -81,7 +84,7 @@ public class NumbersToWordsES
 			return "CERO";
 		if (number > 999999999999999999L || number < -999999999999999999L)
 			throw new NumberIsTooLargeException("Fuera de limite");
-		return number < 0 ? "MENOS " + billions(number * -1) : billions(number);
+		return number < 0 ? "MENOS " + billion(number * -1) : billion(number);
 	}
 
 	public static class NumberIsTooLargeException extends Exception

@@ -35,12 +35,11 @@ public class MainClass extends NumbersToWordsES
 	{
 		String number = getString();
 		StringBuilder n = new StringBuilder(1);
+		if (number.charAt(0) == 45)
+			n.append(number.charAt(0));
 		for (int i = 0; i < number.length(); i++)
-		{
-			char c = number.charAt(i);
-			if (c > 47 && c < 58 || c == 45)
-				n.append(c);
-		}
+			if (number.charAt(i) > 47 && number.charAt(i) < 58)
+				n.append(number.charAt(i));
 		number = n.toString();
 		return number.isEmpty() ? getLong() : Long.parseLong(number);
 	}
